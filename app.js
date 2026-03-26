@@ -1,4 +1,4 @@
-if(process.env.NODE_ENV !== "production"){
+if (process.env.NODE_ENV !== "production") {
     require('dotenv').config();
 }
 
@@ -22,14 +22,14 @@ const userRoutes = require('./routes/users');
 const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
 
-mongoose.connect('mongodb+srv://shivani:shivani@cluster0.ohvdgom.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
-// const dbUrl = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.ohvdgom.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
-
-// mongoose.connect(dbUrl);
+const dbUrl = process.env.DB_URL || 'mongodb://127.0.0.1:27017/yelp-camp';
+mongoose.connect(dbUrl).catch((err) => {
+    console.error('Mongo connection failed:', err);
+});
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
-    console.log("Database connected");
+    console.log("Database connected"); s
 });
 
 const app = express();
